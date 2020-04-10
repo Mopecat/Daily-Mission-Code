@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .father {
+        border: 1px solid #dddddd;
+        width: 100%;
+        height: 200px;
+      }
+      .child {
+        width: 100px;
+        height: 100px;
+        background: red;
+      }
+      .flex {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .abs-margin {
+        position: relative;
+      }
+      .abs-margin .child {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -50px;
+        margin-top: -50px;
+      }
+      .abs-translate {
+        position: relative;
+      }
+      .abs-translate .child {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .table-cell {
+        display: table-cell;
+        vertical-align: middle;
+      }
+      .margin-auto {
+        position: relative;
+      }
+      .margin-auto .child {
+        position: absolute;
+        margin: auto;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+
+      .abs-calc {
+        position: relative;
+      }
+      .abs-calc .child {
+        position: absolute;
+        top: calc(50% - 50px);
+        left: calc(50% - 50px);
+      }
+      .padding {
+        box-sizing: border-box;
+        width: 300px;
+        padding-top: 50px;
+        padding-left: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>方式一： Flex</h1>
+    <div>较为万能，代码书写简单，缺点是兼容性不好</div>
+    <div class="flex father">
+      <div class="child"></div>
+    </div>
+    <h1>方式二： 绝对定位+margin负值</h1>
+    <div>这种方式需要知道child的宽高</div>
+    <div class="abs-margin father">
+      <div class="child"></div>
+    </div>
+    <h1>方式三： 绝对定位+translate</h1>
+    <div>
+      相对于方式二，这种不需要知道child的宽高，但是属于css的新增属性会有一定的兼容性问题，
+      原理是当translate的值是百分比的时候偏移量是根据自身宽高计算的
+    </div>
+    <div class="abs-translate father">
+      <div class="child"></div>
+    </div>
+    <h1>方式四：display:table-cell</h1>
+    <div>这种方式需要清除table的各种样式，本身兼容性也不是很好（ie8+）</div>
+    <div class="table-cell father">
+      <div class="child"></div>
+    </div>
+    <h1>方式5：margin:auto 定位上下左右0</h1>
+    <div class="margin-auto father">
+      <div class="child"></div>
+    </div>
+    <h1>方式5：calc 计算</h1>
+    <div>
+      这个方式有一个挺奇葩的需要注意的点
+      calc内的运算符必须前后都有空格，不然不好使，另外这种计算也需要知道child的宽高
+    </div>
+    <div class="abs-calc father">
+      <div class="child"></div>
+    </div>
+    <h1>方式5：padding</h1>
+    <div>需要知道父元素的宽高，计算得出数值；</div>
+    <div class="padding father">
+      <div class="child"></div>
+    </div>
+  </body>
+</html>
