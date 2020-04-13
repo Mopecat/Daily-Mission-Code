@@ -81,15 +81,15 @@ Function.prototype.bind = function (context) {
   const me = this;
   const args = Array.prototype.slice.call(arguments, 1);
   const F = function () {}; // 只是相当于一个中转函数
-  F.prototype = this.prototype; // 这步是为了拿到 Point 原型上的属性和方法
+  F.prototype = this.prototype; // 返回的新函数上的原型实际指向的是Point,所以返回的才是Ponit的实例
   const bound = function () {
     const innerArgs = Array.prototype.slice.call(arguments);
     const finalArgs = args.concat(innerArgs);
-    console.log(123, this);
-    // 判断 this 是否是 F 的实例 如果是说明 是用new 调用的 BindPoint 这个时候 的this 就已经指向了 Point 所以返回 this即可
+    console.log(123, this, me.prototype);
+    // 判断 this 是否是 F 的实例 如果是说明 是用new 调用的 BindPoint
     return me.apply(this instanceof F ? this : context || this, finalArgs);
   };
-  bound.prototype = new F(); // F 的prototype是 this (Point) 也就是说bound就相当于继承了 Point 可以访问 Point上的属性，也可以访问Point原型上的属性
+  bound.prototype = new F(); // 这样一来bound就是F的实例了,同时也是Point的实例
   return bound;
 };
 
@@ -104,7 +104,7 @@ Point1.prototype.toString = function () {
 const obj1 = { aa: "123" };
 // BindPoint 应该就是绑定函数
 const BindPoint1 = Point1.bind(obj1, 2);
-let instance = new BindPoint1(3);
+let instance = new BindPoint1(3); // 创建一个对象，把对象连接到构造函数的原型，BindPoint的构造函数是bound,bound的原型是F的实例，所以绑定this 到当前对象。 所以上面用this instanceof F判断是否由new操作符调用
 console.log(instance);
 // 由于F.prototype = this.prototype 所以 new出来的实例 直接就是Point的实例 同时也是 BindPoint的实例
 console.log(instance instanceof Point1, instance instanceof BindPoint1);
